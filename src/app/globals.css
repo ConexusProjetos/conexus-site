@@ -1,0 +1,474 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties (Conexus Design System) ─────────────────────────── */
+:root {
+  /* Brand colors */
+  --color-cyan: #00a5b7;
+  --color-cyan-light: #00c4d9;
+  --color-cyan-dark: #007e8c;
+  --color-cyan-muted: rgba(0, 165, 183, 0.15);
+
+  /* Backgrounds */
+  --color-bg-primary: #0a0f1e;
+  --color-bg-secondary: #0f1629;
+  --color-bg-card: #161d30;
+  --color-bg-hover: #1a2236;
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(0, 165, 183, 0.3);
+
+  /* Text */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b0bac9;
+  --color-text-muted: #8892a4;
+
+  /* Shadows */
+  --shadow-cyan: 0 0 20px rgba(0, 165, 183, 0.3);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+
+  /* Gradients */
+  --gradient-hero: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(0, 165, 183, 0.15),
+    transparent
+  );
+  --gradient-card: radial-gradient(
+    circle at top right,
+    rgba(0, 165, 183, 0.08),
+    transparent 60%
+  );
+}
+
+/* ─── Base reset ─────────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-outfit), Outfit, system-ui, sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img, svg {
+    display: block;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ─── Utility classes ────────────────────────────────────────────────────────── */
+@layer components {
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, #ffffff 0%, var(--color-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Cyan accent text */
+  .text-accent {
+    color: var(--color-cyan);
+  }
+
+  /* Glass card */
+  .card-glass {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .card-glass:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Section container */
+  .section-container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  /* Section spacing */
+  .section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-top: 7rem;
+      padding-bottom: 7rem;
+    }
+  }
+
+  /* Section label */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-cyan);
+    border: 1px solid rgba(0, 165, 183, 0.3);
+    border-radius: 9999px;
+    padding: 0.25rem 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-cyan);
+    color: #0a0f1e;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    border: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-cyan-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-cyan);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-cyan);
+    background: rgba(0, 165, 183, 0.08);
+  }
+
+  /* Input base */
+  .input-base {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.9375rem;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .input-base::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .input-base:focus {
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 0 3px rgba(0, 165, 183, 0.1);
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--color-border);
+  }
+}
+
+/* ─── Circuit animation (from repo B) ───────────────────────────────────────── */
+@layer utilities {
+  .circuit-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: circuit-flow 4s linear forwards;
+  }
+
+  /* Staggered delays for circuit paths */
+  .circuit-path:nth-child(1) { animation-delay: 0s; }
+  .circuit-path:nth-child(2) { animation-delay: 0.3s; }
+  .circuit-path:nth-child(3) { animation-delay: 0.6s; }
+  .circuit-path:nth-child(4) { animation-delay: 0.9s; }
+  .circuit-path:nth-child(5) { animation-delay: 1.2s; }
+
+  /* Scrollbar styling */
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+}
+
+/* ─── Admin panel overrides ──────────────────────────────────────────────────── */
+.admin-sidebar {
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border);
+}
+
+/* ─── Print styles ───────────────────────────────────────────────────────────── */
+@media print {
+  body { background: white; color: black; }
+  .no-print { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CONEXUS · Design System v2 - premium claro (estilo Stripe)
+   Acento = gradiente azul→teal. Convive com o tema escuro (admin/login).
+   Aplicado via .cnx-theme no site público. Cores estimadas do logo.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --cnx-blue: #2f449f;
+  --cnx-blue-700: #263a86;
+  --cnx-teal: #1fafb0;
+  --cnx-mid: #21a9d2;
+  --cnx-grad: linear-gradient(100deg, var(--cnx-blue) 0%, var(--cnx-mid) 48%, var(--cnx-teal) 100%);
+
+  --cnx-bg: #ffffff;
+  --cnx-bg-subtle: #f5f7fb;
+  --cnx-surface: #ffffff;
+
+  --cnx-ink: #0b1020;
+  --cnx-ink-2: #3a4356;
+  --cnx-ink-3: #6b7488;
+  --cnx-line: rgba(13, 22, 48, 0.09);
+  --cnx-line-2: rgba(13, 22, 48, 0.055);
+
+  --cnx-r: 14px;
+  --cnx-shadow-sm: 0 1px 2px rgba(13, 22, 48, 0.06), 0 1px 1px rgba(13, 22, 48, 0.04);
+  --cnx-shadow: 0 12px 32px -14px rgba(13, 22, 48, 0.2), 0 4px 12px -6px rgba(47, 68, 159, 0.14);
+  --cnx-shadow-lg: 0 40px 80px -28px rgba(13, 22, 48, 0.28);
+}
+
+/* - Wrapper de tema - */
+.cnx-theme {
+  background: var(--cnx-bg);
+  color: var(--cnx-ink);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+}
+.cnx-theme h1, .cnx-theme h2, .cnx-theme h3, .cnx-theme h4 {
+  color: var(--cnx-ink);
+}
+
+@layer components {
+  /* - Estrutura - */
+  .cnx-section { padding-top: 5.5rem; padding-bottom: 5.5rem; }
+  @media (min-width: 768px) { .cnx-section { padding-top: 7.5rem; padding-bottom: 7.5rem; } }
+  .cnx-subtle { background: var(--cnx-bg-subtle); }
+
+  /* - Camadas de fundo - */
+  .cnx-mesh {
+    position: absolute; inset: -25%; pointer-events: none;
+    background:
+      radial-gradient(38% 48% at 82% 2%, rgba(31, 175, 176, 0.18), transparent 60%),
+      radial-gradient(44% 54% at 6% 18%, rgba(47, 68, 159, 0.16), transparent 60%),
+      radial-gradient(52% 60% at 64% 92%, rgba(33, 169, 210, 0.10), transparent 62%);
+    filter: blur(8px);
+  }
+  .cnx-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--cnx-line-2) 1px, transparent 1px),
+      linear-gradient(90deg, var(--cnx-line-2) 1px, transparent 1px);
+    background-size: 62px 62px;
+    -webkit-mask-image: radial-gradient(ellipse 72% 60% at 50% 28%, #000 28%, transparent 76%);
+    mask-image: radial-gradient(ellipse 72% 60% at 50% 28%, #000 28%, transparent 76%);
+  }
+  .cnx-grain {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* - Tipografia - */
+  .cnx-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--cnx-ink-2); background: #fff; border: 1px solid var(--cnx-line);
+    padding: 0.4rem 0.85rem; border-radius: 999px; box-shadow: var(--cnx-shadow-sm);
+  }
+  .cnx-eyebrow .dot { width: 7px; height: 7px; border-radius: 999px; background: var(--cnx-grad); }
+  .cnx-display {
+    font-family: var(--font-outfit), Outfit, sans-serif; font-weight: 700;
+    letter-spacing: -0.035em; line-height: 1.03; color: var(--cnx-ink);
+    font-size: clamp(2.7rem, 6.2vw, 5.1rem);
+  }
+  .cnx-h2 {
+    font-family: var(--font-outfit), Outfit, sans-serif; font-weight: 700;
+    letter-spacing: -0.03em; line-height: 1.1; color: var(--cnx-ink);
+    font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  }
+  .cnx-grad-text {
+    background: var(--cnx-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .cnx-lead { color: var(--cnx-ink-2); font-size: clamp(1.02rem, 1.5vw, 1.2rem); line-height: 1.6; }
+  .cnx-muted { color: var(--cnx-ink-3); }
+  .cnx-body { color: var(--cnx-ink-2); }
+
+  /* - Botões - */
+  .cnx-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    font-weight: 600; font-size: 0.95rem; padding: 0.82rem 1.45rem; border-radius: 12px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background-position 0.4s ease, border-color 0.2s ease;
+  }
+  .cnx-btn-primary {
+    color: #fff; background: var(--cnx-grad); background-size: 170% 100%; background-position: 0% 50%;
+    box-shadow: 0 10px 22px -10px rgba(47, 68, 159, 0.55);
+  }
+  .cnx-btn-primary:hover { background-position: 100% 50%; transform: translateY(-1px); box-shadow: 0 14px 28px -10px rgba(31, 175, 176, 0.55); }
+  .cnx-btn-ghost { color: var(--cnx-ink); background: #fff; border: 1px solid var(--cnx-line); box-shadow: var(--cnx-shadow-sm); }
+  .cnx-btn-ghost:hover { border-color: rgba(47, 68, 159, 0.32); transform: translateY(-1px); }
+
+  /* - Cartões / chips - */
+  .cnx-card {
+    background: var(--cnx-surface); border: 1px solid var(--cnx-line);
+    border-radius: var(--cnx-r); box-shadow: var(--cnx-shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .cnx-card-hover:hover { transform: translateY(-3px); box-shadow: var(--cnx-shadow); border-color: rgba(47, 68, 159, 0.22); }
+  .cnx-chip {
+    display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.85rem; font-weight: 500;
+    color: var(--cnx-ink-2); background: #fff; border: 1px solid var(--cnx-line);
+    border-radius: 999px; padding: 0.45rem 0.85rem; box-shadow: var(--cnx-shadow-sm);
+  }
+  .cnx-chip-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--cnx-grad); }
+
+  /* - Avatares - */
+  .cnx-ava {
+    width: 36px; height: 36px; border-radius: 999px; display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 700; color: #fff; border: 2px solid #fff; box-shadow: var(--cnx-shadow-sm); margin-left: -10px;
+  }
+  .cnx-ava:first-child { margin-left: 0; }
+
+  /* - Inputs (claro) - */
+  .cnx-input {
+    width: 100%; background: #fff; border: 1px solid var(--cnx-line); border-radius: 10px;
+    color: var(--cnx-ink); font-size: 0.9375rem; padding: 0.72rem 0.95rem; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .cnx-input::placeholder { color: var(--cnx-ink-3); }
+  .cnx-input:focus { border-color: var(--cnx-mid); box-shadow: 0 0 0 3px rgba(47, 68, 159, 0.12); }
+}
+
+/* - Órbita (motivo de marca) - */
+@layer utilities {
+  .cnx-orbit { transform-origin: 300px 300px; animation: cnx-spin 48s linear infinite; }
+  .cnx-orbit-rev { transform-origin: 300px 300px; animation: cnx-spin 72s linear infinite reverse; }
+  @keyframes cnx-spin { to { transform: rotate(360deg); } }
+  .cnx-draw { stroke-dasharray: 1600; stroke-dashoffset: 1600; animation: cnx-draw 2.4s ease forwards; }
+  @keyframes cnx-draw { to { stroke-dashoffset: 0; } }
+  .cnx-node { opacity: 0; animation: cnx-pop 0.5s ease forwards; }
+  @keyframes cnx-pop { to { opacity: 1; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cnx-orbit, .cnx-orbit-rev, .cnx-draw, .cnx-node { animation: none; }
+  .cnx-draw { stroke-dashoffset: 0; }
+  .cnx-node { opacity: 1; }
+}
+
+/* ─── Ponte de compatibilidade ────────────────────────────────────────────────
+   Páginas públicas ainda não migradas (blog, portfólio, contato) usam classes
+   do tema escuro. Dentro de .cnx-theme, remapeamos para o tema claro para que
+   permaneçam legíveis até a migração completa. Maior especificidade vence as
+   utilities do Tailwind sem !important. */
+.cnx-theme .text-white { color: var(--cnx-ink); }
+.cnx-theme .text-conexus-text-secondary { color: var(--cnx-ink-2); }
+.cnx-theme .text-conexus-text-muted { color: var(--cnx-ink-3); }
+.cnx-theme .bg-conexus-dark { background-color: var(--cnx-bg); }
+.cnx-theme .bg-conexus-dark-2 { background-color: var(--cnx-bg-subtle); }
+.cnx-theme .bg-conexus-dark-3 { background-color: var(--cnx-bg-subtle); }
+.cnx-theme .border-conexus-dark-border { border-color: var(--cnx-line); }
+.cnx-theme .card-glass {
+  background: var(--cnx-surface);
+  border: 1px solid var(--cnx-line);
+  border-radius: var(--cnx-r);
+}
+.cnx-theme .card-glass:hover { border-color: rgba(47, 68, 159, 0.22); box-shadow: var(--cnx-shadow); }
+.cnx-theme .btn-primary {
+  background: var(--cnx-grad); color: #fff;
+  box-shadow: 0 10px 22px -10px rgba(47, 68, 159, 0.55);
+}
+.cnx-theme .btn-primary:hover { background: var(--cnx-grad); box-shadow: 0 14px 28px -10px rgba(31, 175, 176, 0.55); }
+.cnx-theme .btn-secondary { color: var(--cnx-ink); border-color: var(--cnx-line); }
+.cnx-theme .btn-secondary:hover { border-color: rgba(47, 68, 159, 0.32); background: #fff; }
+.cnx-theme .input-base {
+  background: #fff; border-color: var(--cnx-line); color: var(--cnx-ink);
+}
+.cnx-theme .input-base::placeholder { color: var(--cnx-ink-3); }
+.cnx-theme .input-base:focus { border-color: var(--cnx-mid); box-shadow: 0 0 0 3px rgba(47, 68, 159, 0.12); }
+/* Acentos cyan legados → marca (azul/teal) */
+.cnx-theme .text-conexus-cyan { color: var(--cnx-blue); }
+.cnx-theme .text-conexus-cyan-light { color: var(--cnx-teal); }
+.cnx-theme .hover\:text-conexus-cyan:hover { color: var(--cnx-blue); }
+.cnx-theme .hover\:text-conexus-cyan-light:hover { color: var(--cnx-teal); }
+.cnx-theme .bg-conexus-cyan { background-color: var(--cnx-teal); }
+.cnx-theme .border-conexus-cyan { border-color: rgba(47, 68, 159, 0.3); }
+.cnx-theme .section-label { color: var(--cnx-blue); border-color: rgba(47, 68, 159, 0.25); }
+
+/* Específicos do admin/login (claro) */
+.cnx-theme .admin-sidebar { background: var(--cnx-bg-subtle); border-right-color: var(--cnx-line); }
+.cnx-theme .bg-conexus-dark-card { background-color: var(--cnx-surface); }
+.cnx-theme .bg-black\/20 { background-color: var(--cnx-bg-subtle); }
+.cnx-theme .text-white\/90 { color: var(--cnx-ink); }
+.cnx-theme .text-white\/80 { color: var(--cnx-ink-2); }
+.cnx-theme .hover\:text-white:hover { color: var(--cnx-ink); }
+.cnx-theme .group:hover .group-hover\:text-white { color: var(--cnx-ink); }
+/* Superfícies "white/x" (zebra/skeleton/hover de tabela) → tons claros visíveis */
+.cnx-theme .bg-white\/5 { background-color: rgba(13, 22, 48, 0.05); }
+.cnx-theme .bg-white\/\[0\.02\] { background-color: var(--cnx-bg-subtle); }
+.cnx-theme .bg-white\/\[0\.03\] { background-color: var(--cnx-bg-subtle); }
+.cnx-theme .hover\:bg-white\/5:hover { background-color: rgba(13, 22, 48, 0.04); }
+.cnx-theme .hover\:bg-white\/\[0\.03\]:hover { background-color: rgba(13, 22, 48, 0.035); }
+.cnx-theme .hover\:bg-white\/\[0\.02\]:hover { background-color: rgba(13, 22, 48, 0.03); }

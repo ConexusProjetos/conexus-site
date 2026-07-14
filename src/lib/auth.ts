@@ -1,10 +1,16 @@
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 
-if (!process.env.JWT_SECRET) {
-  throw new Error("JWT_SECRET is not defined in environment variables.");
+/**
+ * Secrets are injected when the container starts. Reading it lazily prevents
+ * `next build` from requiring (or accidentally embedding) a production secret.
+ */
+function getSecret(): Uint8Array {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not defined in environment variables.");
+  }
+  return new TextEncoder().encode(jwtSecret);
 }
-
-const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
 const TOKEN_EXPIRY = "7d";
 
@@ -22,12 +28,12 @@ export async function signToken(payload: Omit<TokenPayload, "iat" | "exp" | "iss
     .setIssuedAt()
     .setIssuer("conexus")
     .setExpirationTime(TOKEN_EXPIRY)
-    .sign(secret);
+    .sign(getSecret());
 }
 
 /** Verify and decode a JWT - throws on invalid/expired */
 export async function verifyToken(token: string): Promise<TokenPayload> {
-  const { payload } = await jwtVerify(token, secret, { issuer: "conexus" });
+  const { payload } = await jwtVerify(token, getSecret(), { issuer: "conexus" });
   return payload as TokenPayload;
 }
 

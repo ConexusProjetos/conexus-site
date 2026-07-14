@@ -10,7 +10,16 @@
 
 /** True when DATABASE_URL points at a local Postgres (Docker or native). */
 export function isLocalDatabase(url: string): boolean {
-  return /@(localhost|127\.0\.0\.1|\[::1\])(:|\/)/.test(url);
+  try {
+    // `db` and `postgres` are conventional service names in Docker Compose.
+    // They are reachable only inside the local Docker network and do not use
+    // TLS, just like localhost.
+    return ["localhost", "127.0.0.1", "[::1]", "::1", "db", "postgres"].includes(
+      new URL(url).hostname
+    );
+  } catch {
+    return /@(localhost|127\.0\.0\.1|\[::1\]|db|postgres)(:|\/)/.test(url);
+  }
 }
 
 /**

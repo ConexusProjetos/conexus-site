@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { db } from "@/server/db";
 import { blogPosts, projects } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 
@@ -40,6 +39,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic blog posts
   let blogRoutes: MetadataRoute.Sitemap = [];
   try {
+    // Keep the database module out of the build phase. On a container build
+    // the production database credentials only exist when the app starts.
+    const { db } = await import("@/server/db");
     const posts = await db
       .select({ slug: blogPosts.slug, updatedAt: blogPosts.updatedAt })
       .from(blogPosts)
@@ -58,6 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic portfolio projects
   let portfolioRoutes: MetadataRoute.Sitemap = [];
   try {
+    const { db } = await import("@/server/db");
     const activeProjects = await db
       .select({ slug: projects.slug, updatedAt: projects.updatedAt })
       .from(projects)

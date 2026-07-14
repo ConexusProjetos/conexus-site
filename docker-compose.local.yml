@@ -1,0 +1,57 @@
+# Ambiente de teste local: use este arquivo sozinho, sem o docker-compose.yml
+# de produção (que depende da rede externa do Traefik).
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: conexus
+      POSTGRES_USER: conexus
+      POSTGRES_PASSWORD: conexus_local_password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U conexus -d conexus"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  migrate:
+    build:
+      context: .
+      target: migrator
+    environment:
+      DATABASE_URL: postgresql://conexus:conexus_local_password@db:5432/conexus
+      NODE_ENV: production
+      SEED_ADMIN_PASSWORD: trocar-esta-senha-local
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_APP_URL: http://localhost:3000
+    environment:
+      DATABASE_URL: postgresql://conexus:conexus_local_password@db:5432/conexus
+      JWT_SECRET: local-only-change-this-secret-to-at-least-32-characters
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_APP_NAME: Conexus
+      NODE_ENV: production
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  postgres-data:

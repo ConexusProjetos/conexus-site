@@ -188,3 +188,58 @@ npm start                # Iniciar em produção
 | Markdown | react-markdown + remark-gfm |
 | Analytics | Google Analytics 4 |
 | Deploy | Vercel (frontend) |
+
+---
+
+## Deploy na VPS com Docker e Traefik
+
+Este projeto Ã© um Ãºnico app Next.js: o site e as rotas de API (`/api/*` e
+tRPC) sÃ£o servidos pelo mesmo container. O Compose publica os dois hosts no
+Traefik: `conexus.tech` (e `www`) e `api.conexus.tech`.
+
+Na VPS, dentro da pasta do projeto:
+
+```bash
+cp .env.production.example .env.production
+cp .env.docker.example .env
+# Edite os dois arquivos e informe a string do novo banco em DATABASE_URL.
+docker compose up -d --build
+```
+
+`TRAEFIK_NETWORK` e `TRAEFIK_CERTRESOLVER`, no arquivo `.env`, devem ter os
+mesmos nomes empregados pelo Compose do Traefik jÃ¡ instalado na VPS. A rede
+precisa existir antes do deploy (`docker network ls`). NÃ£o hÃ¡ `ports` no
+Compose porque o acesso externo Ã© exclusivamente pelo Traefik.
+
+O serviÃ§o `migrate` aplica as migrations Drizzle antes de iniciar o app. As
+migrations sÃ£o registradas no banco e podem rodar novamente em novo deploy.
+O seed Ã© propositalmente manual, caso seja necessÃ¡rio:
+
+```bash
+docker compose run --rm migrate npm run seed
+```
+
+### Teste local com banco em Docker
+
+Com o Docker Desktop em execuÃ§Ã£o, este comando sobe o app e um PostgreSQL
+local, executando as migrations automaticamente. Ele nÃ£o usa Traefik nem o
+banco da VPS:
+
+```bash
+docker compose -f docker-compose.local.yml up --build
+```
+
+Abra `http://localhost:3000` e confirme a saÃºde em
+`http://localhost:3000/api/health`. Para criar o usuÃ¡rio e dados iniciais em
+um banco local vazio, abra outro terminal e execute:
+
+```bash
+docker compose -f docker-compose.local.yml run --rm migrate npm run seed
+```
+
+O login local criado pelo seed Ã© `admin@conexus.com.br`, com a senha
+`trocar-esta-senha-local`.
+
+Para encerrar, use `docker compose -f docker-compose.local.yml down`. Para
+apagar tambÃ©m os dados locais do PostgreSQL e reiniciar do zero, use
+`docker compose -f docker-compose.local.yml down -v`.

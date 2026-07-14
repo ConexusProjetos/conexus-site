@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Produces a self-contained server in .next/standalone, used by Docker.
+  output: "standalone",
+
   // Allow images from common hosting providers
   images: {
     remotePatterns: [

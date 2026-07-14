@@ -101,7 +101,7 @@ function leadConfirmationHtml(name: string): string {
       <p>Olá, <strong>${name}</strong>!</p>
       <p>Recebemos sua mensagem e nossa equipe entrará em contato em até <strong>48 horas úteis</strong>.</p>
       <p>Se preferir uma resposta mais rápida, fale direto pelo WhatsApp:</p>
-      <a href="https://wa.me/5585985353536" class="cta">Falar no WhatsApp</a>
+      <a href="https://wa.me/5585985535362" class="cta">Falar no WhatsApp</a>
       <p style="margin-top:32px;font-size:13px;color:#8892A4">Conexus - Tecnologia que resolve. Simples assim.</p>
     </div>
     <div class="footer">© ${new Date().getFullYear()} Conexus Tecnologia</div>

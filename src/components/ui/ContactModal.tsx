@@ -25,7 +25,7 @@ export function ContactModal({ isOpen, onClose, leadName }: Props) {
 
   if (!isOpen) return null;
 
-  const WHATSAPP_NUMBER = "5585985353536";
+  const WHATSAPP_NUMBER = "5585985535362";
   const whatsappMessage = encodeURIComponent(
     `Olá! Acabei de enviar uma mensagem pelo site da Conexus. Me chamo ${leadName} e gostaria de conversar sobre uma solução para minha empresa.`
   );

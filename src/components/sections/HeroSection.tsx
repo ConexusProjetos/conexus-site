@@ -1,4 +1,11 @@
-import { ArrowRight, Boxes, LayoutDashboard, Workflow, Plug, Database } from "lucide-react";
+import {
+  ArrowRight,
+  Boxes,
+  LayoutDashboard,
+  Workflow,
+  Plug,
+  Database,
+} from "lucide-react";
 
 const TEAM = [
   { initials: "K", from: "#2f449f", to: "#21a9d2" },
@@ -20,7 +27,12 @@ const CAPABILITIES = [
 
 function Orbit() {
   return (
-    <svg viewBox="0 0 600 600" className="w-full h-full" fill="none" aria-hidden="true">
+    <svg
+      viewBox="0 0 600 600"
+      className="w-full h-full"
+      fill="none"
+      aria-hidden="true"
+    >
       <defs>
         <linearGradient id="cnxHeroG" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#2f449f" />
@@ -29,20 +41,80 @@ function Orbit() {
         </linearGradient>
         <filter id="cnxHeroGlow" x="-30%" y="-30%" width="160%" height="160%">
           <feGaussianBlur stdDeviation="6" result="b" />
-          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          <feMerge>
+            <feMergeNode in="b" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
         </filter>
       </defs>
       <g className="cnx-orbit">
-        <ellipse className="cnx-draw" cx="300" cy="300" rx="250" ry="150" stroke="url(#cnxHeroG)" strokeWidth="1.6" strokeOpacity="0.85" transform="rotate(-18 300 300)" />
-        <ellipse cx="300" cy="300" rx="250" ry="150" stroke="url(#cnxHeroG)" strokeWidth="1" strokeOpacity="0.25" transform="rotate(42 300 300)" />
+        <ellipse
+          className="cnx-draw"
+          cx="300"
+          cy="300"
+          rx="250"
+          ry="150"
+          stroke="url(#cnxHeroG)"
+          strokeWidth="1.6"
+          strokeOpacity="0.85"
+          transform="rotate(-18 300 300)"
+        />
+        <ellipse
+          cx="300"
+          cy="300"
+          rx="250"
+          ry="150"
+          stroke="url(#cnxHeroG)"
+          strokeWidth="1"
+          strokeOpacity="0.25"
+          transform="rotate(42 300 300)"
+        />
       </g>
       <g className="cnx-orbit-rev">
-        <ellipse className="cnx-draw" cx="300" cy="300" rx="180" ry="180" stroke="url(#cnxHeroG)" strokeWidth="1.3" strokeOpacity="0.5" />
+        <ellipse
+          className="cnx-draw"
+          cx="300"
+          cy="300"
+          rx="180"
+          ry="180"
+          stroke="url(#cnxHeroG)"
+          strokeWidth="1.3"
+          strokeOpacity="0.5"
+        />
       </g>
-      <circle cx="300" cy="300" r="9" fill="url(#cnxHeroG)" filter="url(#cnxHeroGlow)" />
-      <circle cx="300" cy="300" r="74" stroke="url(#cnxHeroG)" strokeWidth="1" strokeOpacity="0.35" />
-      {[[300, 150, 0.6], [520, 360, 0.9], [110, 250, 1.1], [300, 480, 1.3], [470, 230, 1.5], [150, 420, 1.7]].map(([cx, cy, d], i) => (
-        <circle key={i} className="cnx-node" cx={cx} cy={cy} r={i % 2 ? 4 : 6} fill="url(#cnxHeroG)" filter="url(#cnxHeroGlow)" style={{ animationDelay: `${d}s` }} />
+      <circle
+        cx="300"
+        cy="300"
+        r="9"
+        fill="url(#cnxHeroG)"
+        filter="url(#cnxHeroGlow)"
+      />
+      <circle
+        cx="300"
+        cy="300"
+        r="74"
+        stroke="url(#cnxHeroG)"
+        strokeWidth="1"
+        strokeOpacity="0.35"
+      />
+      {[
+        [300, 150, 0.6],
+        [520, 360, 0.9],
+        [110, 250, 1.1],
+        [300, 480, 1.3],
+        [470, 230, 1.5],
+        [150, 420, 1.7],
+      ].map(([cx, cy, d], i) => (
+        <circle
+          key={i}
+          className="cnx-node"
+          cx={cx}
+          cy={cy}
+          r={i % 2 ? 4 : 6}
+          fill="url(#cnxHeroG)"
+          filter="url(#cnxHeroGlow)"
+          style={{ animationDelay: `${d}s` }}
+        />
       ))}
     </svg>
   );
@@ -66,12 +138,12 @@ export function HeroSection() {
           <div>
             <div className="cnx-eyebrow mb-7">
               <span className="dot" />
-              Tecnologia para PMEs · Fortaleza, CE
+              Tecnologia para PMEs · Jaguaruana, CE
             </div>
 
             <h1 className="cnx-display mb-7">
-              A sua operação,{" "}
-              <span className="cnx-grad-text">conectada</span> e sob controle.
+              A sua operação, <span className="cnx-grad-text">conectada</span> e
+              sob controle.
             </h1>
 
             <p className="cnx-lead max-w-xl mb-10">
@@ -95,7 +167,13 @@ export function HeroSection() {
               <div className="flex items-center gap-3.5">
                 <div className="flex">
                   {TEAM.map((m, i) => (
-                    <div key={i} className="cnx-ava" style={{ background: `linear-gradient(135deg, ${m.from}, ${m.to})` }}>
+                    <div
+                      key={i}
+                      className="cnx-ava"
+                      style={{
+                        background: `linear-gradient(135deg, ${m.from}, ${m.to})`,
+                      }}
+                    >
                       {m.initials}
                     </div>
                   ))}
@@ -121,11 +199,17 @@ export function HeroSection() {
             <div
               className="absolute -inset-8 rounded-[2.5rem]"
               aria-hidden="true"
-              style={{ background: "radial-gradient(60% 60% at 65% 35%, rgba(33,169,210,0.20), transparent 70%)" }}
+              style={{
+                background:
+                  "radial-gradient(60% 60% at 65% 35%, rgba(33,169,210,0.20), transparent 70%)",
+              }}
             />
             <div
               className="relative rounded-2xl overflow-hidden border bg-white"
-              style={{ borderColor: "var(--cnx-line)", boxShadow: "var(--cnx-shadow-lg)" }}
+              style={{
+                borderColor: "var(--cnx-line)",
+                boxShadow: "var(--cnx-shadow-lg)",
+              }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -138,12 +222,26 @@ export function HeroSection() {
             </div>
 
             {/* Chip flutuante */}
-            <div className="absolute -left-5 bottom-7 cnx-card px-3.5 py-2.5 flex items-center gap-2.5" style={{ boxShadow: "var(--cnx-shadow)" }}>
-              <span className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: "rgba(47, 68, 159, 0.08)", color: "var(--cnx-blue)" }}>
+            <div
+              className="absolute -left-5 bottom-7 cnx-card px-3.5 py-2.5 flex items-center gap-2.5"
+              style={{ boxShadow: "var(--cnx-shadow)" }}
+            >
+              <span
+                className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{
+                  background: "rgba(47, 68, 159, 0.08)",
+                  color: "var(--cnx-blue)",
+                }}
+              >
                 <LayoutDashboard size={16} />
               </span>
               <div>
-                <div className="text-xs font-semibold" style={{ color: "var(--cnx-ink)" }}>Indicadores em tempo real</div>
+                <div
+                  className="text-xs font-semibold"
+                  style={{ color: "var(--cnx-ink)" }}
+                >
+                  Indicadores em tempo real
+                </div>
                 <div className="text-[11px] cnx-muted">sem planilha manual</div>
               </div>
             </div>

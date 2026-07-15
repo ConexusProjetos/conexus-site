@@ -110,7 +110,7 @@ export function ContactSection() {
 
               <div className="flex flex-col gap-4">
                 <a
-                  href="https://wa.me/5585985353536"
+                  href="https://wa.me/5585985535362"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 cnx-card cnx-card-hover"
@@ -122,17 +122,17 @@ export function ContactSection() {
                   </div>
                   <div>
                     <div className="text-sm font-semibold" style={{ color: "var(--cnx-ink)" }}>WhatsApp</div>
-                    <div className="text-xs cnx-muted">(85) 9 8535-3536</div>
+                    <div className="text-xs cnx-muted">Clique para conversar</div>
                   </div>
                 </a>
 
-                <a href="mailto:contato@conexus.com.br" className="flex items-center gap-4 p-4 cnx-card cnx-card-hover">
+                <a href="mailto:conexusprojetos@gmail.com" className="flex items-center gap-4 p-4 cnx-card cnx-card-hover">
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(47, 68, 159,0.08)", color: "var(--cnx-blue)" }}>
                     <Mail size={20} aria-hidden="true" />
                   </div>
                   <div>
                     <div className="text-sm font-semibold" style={{ color: "var(--cnx-ink)" }}>E-mail</div>
-                    <div className="text-xs cnx-muted">contato@conexus.com.br</div>
+                    <div className="text-xs cnx-muted">conexusprojetos@gmail.com</div>
                   </div>
                 </a>
               </div>

@@ -67,17 +67,18 @@ cp .env.example .env.local
 
 Edite `.env.local` com suas credenciais:
 
-| Variável | Obrigatória | Descrição |
-|---|---|---|
-| `DATABASE_URL` | ✅ | URL de conexão PostgreSQL |
-| `JWT_SECRET` | ✅ | Chave secreta JWT (mín. 32 chars) |
-| `RESEND_API_KEY` | ✅ | Chave da API do Resend |
-| `RESEND_FROM_EMAIL` | ✅ | E-mail verificado no Resend |
-| `RESEND_NOTIFY_EMAIL` | ✅ | Para onde chegam os leads |
-| `NEXT_PUBLIC_APP_URL` | ✅ | URL pública do site |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | ⬜ | ID do GA4 (ex: `G-XXXXXXXXXX`) |
+| Variável                        | Obrigatória | Descrição                         |
+| ------------------------------- | ----------- | --------------------------------- |
+| `DATABASE_URL`                  | ✅          | URL de conexão PostgreSQL         |
+| `JWT_SECRET`                    | ✅          | Chave secreta JWT (mín. 32 chars) |
+| `RESEND_API_KEY`                | ✅          | Chave da API do Resend            |
+| `RESEND_FROM_EMAIL`             | ✅          | E-mail verificado no Resend       |
+| `RESEND_NOTIFY_EMAIL`           | ✅          | Para onde chegam os leads         |
+| `NEXT_PUBLIC_APP_URL`           | ✅          | URL pública do site               |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | ⬜          | ID do GA4 (ex: `G-XXXXXXXXXX`)    |
 
 Gerar JWT_SECRET:
+
 ```bash
 openssl rand -base64 64
 ```
@@ -110,6 +111,7 @@ npm run seed
 ```
 
 Cria:
+
 - Usuário admin (`admin@conexus.com.br` / `(ver SEED_ADMIN_PASSWORD)`)
 - 5 serviços do portfólio
 - Categorias de projetos e blog
@@ -151,11 +153,11 @@ npm start                # Iniciar em produção
 
 ## Credenciais Padrão (após seed)
 
-| Campo  | Valor                  |
-|--------|------------------------|
-| URL    | /login                 |
-| Email  | admin@conexus.com.br   |
-| Senha  | (ver SEED_ADMIN_PASSWORD)          |
+| Campo | Valor                     |
+| ----- | ------------------------- |
+| URL   | /login                    |
+| Email | admin@conexus.com.br      |
+| Senha | (ver SEED_ADMIN_PASSWORD) |
 
 > ⚠️ **Mude a senha após o primeiro login em produção.**
 
@@ -163,31 +165,31 @@ npm start                # Iniciar em produção
 
 ## Fases de Desenvolvimento
 
-| Fase | Status | Descrição |
-|------|--------|-----------|
-| 1 | ✅ | Setup, banco de dados, tRPC, auth, shell Next.js |
-| 2 | ✅ | Landing page completa (porte do design do repo B) |
-| 3 | ✅ | Painel admin completo (CRUD + login + blog editor) |
-| 4 | ✅ | Páginas públicas (blog, portfólio, contato) com SSG/SSR |
-| 5 | ✅ | Deploy, OG dinâmico, analytics, segurança, produção |
+| Fase | Status | Descrição                                               |
+| ---- | ------ | ------------------------------------------------------- |
+| 1    | ✅     | Setup, banco de dados, tRPC, auth, shell Next.js        |
+| 2    | ✅     | Landing page completa (porte do design do repo B)       |
+| 3    | ✅     | Painel admin completo (CRUD + login + blog editor)      |
+| 4    | ✅     | Páginas públicas (blog, portfólio, contato) com SSG/SSR |
+| 5    | ✅     | Deploy, OG dinâmico, analytics, segurança, produção     |
 
 ---
 
 ## Tecnologias
 
-| Camada | Tecnologia |
-|---|---|
-| Framework | Next.js 15 (App Router) |
-| Linguagem | TypeScript 5.7 |
-| Estilo | Tailwind CSS 3.4 |
-| API | tRPC v11 + Zod |
-| ORM | Drizzle ORM |
-| Banco | PostgreSQL |
-| Auth | JWT (jose) + httpOnly cookies |
-| E-mail | Resend |
-| Markdown | react-markdown + remark-gfm |
-| Analytics | Google Analytics 4 |
-| Deploy | Vercel (frontend) |
+| Camada    | Tecnologia                    |
+| --------- | ----------------------------- |
+| Framework | Next.js 15 (App Router)       |
+| Linguagem | TypeScript 5.7                |
+| Estilo    | Tailwind CSS 3.4              |
+| API       | tRPC v11 + Zod                |
+| ORM       | Drizzle ORM                   |
+| Banco     | PostgreSQL                    |
+| Auth      | JWT (jose) + httpOnly cookies |
+| E-mail    | Resend                        |
+| Markdown  | react-markdown + remark-gfm   |
+| Analytics | Google Analytics 4            |
+| Deploy    | Vercel (frontend)             |
 
 ---
 
@@ -195,7 +197,7 @@ npm start                # Iniciar em produção
 
 Este projeto Ã© um Ãºnico app Next.js: o site e as rotas de API (`/api/*` e
 tRPC) sÃ£o servidos pelo mesmo container. O Compose publica os dois hosts no
-Traefik: `conexus.tech` (e `www`) e `api.conexus.tech`.
+Traefik: `conexusprojects.tech` (e `www`) e `api.conexusprojects.tech`.
 
 Na VPS, dentro da pasta do projeto:
 

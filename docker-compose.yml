@@ -13,7 +13,7 @@ services:
       context: .
       target: runner
       args:
-        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://conexus.tech}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-https://conexusprojects.tech}
         NEXT_PUBLIC_GA_MEASUREMENT_ID: ${NEXT_PUBLIC_GA_MEASUREMENT_ID:-}
     env_file: .env.production
     restart: unless-stopped
@@ -24,18 +24,24 @@ services:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK:-traefik-public}
       - traefik.http.services.conexus.loadbalancer.server.port=3000
-      - traefik.http.routers.conexus.rule=Host(`conexus.tech`) || Host(`www.conexus.tech`)
+      - traefik.http.routers.conexus.rule=Host(`conexusprojects.tech`) || Host(`www.conexusprojects.tech`)
       - traefik.http.routers.conexus.entrypoints=websecure
       - traefik.http.routers.conexus.tls=true
       - traefik.http.routers.conexus.tls.certresolver=${TRAEFIK_CERTRESOLVER:-letsencrypt}
       - traefik.http.routers.conexus.service=conexus
-      - traefik.http.routers.conexus-api.rule=Host(`api.conexus.tech`)
+      - traefik.http.routers.conexus-api.rule=Host(`api.conexusprojects.tech`)
       - traefik.http.routers.conexus-api.entrypoints=websecure
       - traefik.http.routers.conexus-api.tls=true
       - traefik.http.routers.conexus-api.tls.certresolver=${TRAEFIK_CERTRESOLVER:-letsencrypt}
       - traefik.http.routers.conexus-api.service=conexus
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
       interval: 30s
       timeout: 5s
       retries: 3

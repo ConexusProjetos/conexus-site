@@ -138,7 +138,7 @@ export function HeroSection() {
           <div>
             <div className="cnx-eyebrow mb-7">
               <span className="dot" />
-              Tecnologia para PMEs · Jaguaruana, CE
+              Tecnologia para PMEs · Fortaleza, CE
             </div>
 
             <h1 className="cnx-display mb-7">

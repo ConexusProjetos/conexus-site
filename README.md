@@ -211,6 +211,11 @@ mesmos nomes empregados pelo Compose do Traefik jÃ¡ instalado na VPS. A rede
 precisa existir antes do deploy (`docker network ls`). NÃ£o hÃ¡ `ports` no
 Compose porque o acesso externo Ã© exclusivamente pelo Traefik.
 
+Quando o PostgreSQL estiver no mesmo Docker host e na rede `traefik-public`,
+use `postgres` como host em `DATABASE_URL` (por exemplo,
+`postgresql://usuario:senha@postgres:5432/conexus_site`). O domÃ­nio do
+pgAdmin nÃ£o Ã© o endereÃ§o de conexÃ£o do PostgreSQL.
+
 O serviÃ§o `migrate` aplica as migrations Drizzle antes de iniciar o app. As
 migrations sÃ£o registradas no banco e podem rodar novamente em novo deploy.
 O seed Ã© propositalmente manual, caso seja necessÃ¡rio:

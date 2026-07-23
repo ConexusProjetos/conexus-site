@@ -2,7 +2,7 @@ import { createServerCaller } from "@/lib/trpc/server";
 import { formatCurrency } from "@/lib/utils";
 import type { Service } from "@/server/db/schema";
 import { ServiceIcon } from "@/lib/service-icons";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 
 // Fallback static services in case DB is empty (before seed runs)
 const STATIC_SERVICES: Partial<Service>[] = [
@@ -77,7 +77,20 @@ function ServiceCard({ service }: { service: Partial<Service> }) {
       </h3>
 
       {service.shortDescription && (
-        <p className="cnx-body text-sm mb-5">{service.shortDescription}</p>
+        <p className="cnx-body text-sm mb-3">{service.shortDescription}</p>
+      )}
+
+      {service.description && service.description !== service.shortDescription && (
+        <details className="group/desc mb-5 -mt-1">
+          <summary
+            className="cursor-pointer text-xs font-semibold inline-flex items-center gap-1 list-none select-none [&::-webkit-details-marker]:hidden"
+            style={{ color: "var(--cnx-blue)" }}
+          >
+            Saiba mais
+            <ChevronDown size={13} className="transition-transform group-open/desc:rotate-180" aria-hidden="true" />
+          </summary>
+          <p className="cnx-body text-sm leading-relaxed mt-2.5">{service.description}</p>
+        </details>
       )}
 
       <ul className="flex flex-col gap-2 mb-6 flex-1" role="list">

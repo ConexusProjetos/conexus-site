@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { createServerCaller } from "@/lib/trpc/server";
+import { createPublicCaller } from "@/lib/trpc/server";
 import { MarkdownRenderer } from "@/components/ui/MarkdownRenderer";
 import { BlogCard } from "@/components/sections/BlogCard";
 import { formatDate, getAbsoluteUrl } from "@/lib/utils";
@@ -9,10 +9,14 @@ import { ArrowLeft, Calendar, Clock, User, Target } from "lucide-react";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// Pagina gerada estaticamente e revalidada a cada 5 min: posts novos ou
+// editados no admin aparecem sozinhos, sem precisar de novo deploy.
+export const revalidate = 300;
+
 // ─── SSG ─────────────────────────────────────────────────────────────────────
 export async function generateStaticParams() {
   try {
-    const trpc = await createServerCaller();
+    const trpc = await createPublicCaller();
     const slugs = await trpc.blog.allSlugs();
     return slugs.map((slug) => ({ slug }));
   } catch {
@@ -24,7 +28,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const trpc = await createServerCaller();
+    const trpc = await createPublicCaller();
     const post = await trpc.blog.bySlug({ slug });
     const title = post.metaTitle ?? post.title;
     const description =
@@ -60,7 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
 
-  const trpc = await createServerCaller();
+  const trpc = await createPublicCaller();
   const post = await trpc.blog.bySlug({ slug }).catch(() => null);
 
   if (!post) notFound();

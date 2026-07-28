@@ -1,4 +1,4 @@
-import { createServerCaller } from "@/lib/trpc/server";
+import { createPublicCaller } from "@/lib/trpc/server";
 import { formatCurrency } from "@/lib/utils";
 import type { Service } from "@/server/db/schema";
 import { ServiceIcon } from "@/lib/service-icons";
@@ -9,6 +9,7 @@ const STATIC_SERVICES: Partial<Service>[] = [
   {
     id: 1,
     title: "Controle de Estoque",
+    slug: "controle-de-estoque",
     icon: "boxes",
     shortDescription: "Nunca perca um produto ou duplique um registro.",
     features: ["Cadastro com categorias e variações", "Entradas/saídas com histórico", "Alertas de estoque mínimo", "Relatórios de movimentação"],
@@ -18,6 +19,7 @@ const STATIC_SERVICES: Partial<Service>[] = [
   {
     id: 2,
     title: "Sistemas Internos",
+    slug: "sistemas-internos",
     icon: "monitor",
     shortDescription: "CRM, pedidos e tarefas sob medida para o seu time.",
     features: ["CRM para clientes e contatos", "Gestão de pedidos e orçamentos", "Controle de tarefas internas", "Módulo de agendamentos"],
@@ -27,6 +29,7 @@ const STATIC_SERVICES: Partial<Service>[] = [
   {
     id: 3,
     title: "Dashboards Inteligentes",
+    slug: "dashboards-e-relatorios",
     icon: "bar-chart",
     shortDescription: "Seus dados em tempo real, sem planilhas manuais.",
     features: ["Conexão com dados existentes", "Indicadores em tempo real", "Relatórios automáticos", "Exportação PDF/Excel"],
@@ -36,6 +39,7 @@ const STATIC_SERVICES: Partial<Service>[] = [
   {
     id: 4,
     title: "Automação de Tarefas",
+    slug: "automacao-de-tarefas",
     icon: "settings",
     shortDescription: "Libere sua equipe do trabalho repetitivo.",
     features: ["Envio automático de e-mail/WhatsApp", "Geração de documentos", "Importação automática de dados", "Backup e sincronização"],
@@ -45,6 +49,7 @@ const STATIC_SERVICES: Partial<Service>[] = [
   {
     id: 5,
     title: "Integrações",
+    slug: "integracoes",
     icon: "integration",
     shortDescription: "Seus sistemas conversando, sem esforço manual.",
     features: ["E-commerce + financeiro", "ERP + ferramentas externas", "Sincronização de plataformas", "APIs customizadas"],
@@ -63,7 +68,10 @@ function ServiceCard({ service }: { service: Partial<Service> }) {
     : null;
 
   return (
-    <article className="cnx-card cnx-card-hover p-7 flex flex-col">
+    <article
+      id={service.slug}
+      className="cnx-card cnx-card-hover p-7 flex flex-col scroll-mt-28"
+    >
       {/* Icon */}
       <div
         className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
@@ -119,7 +127,7 @@ function ServiceCard({ service }: { service: Partial<Service> }) {
 export async function ServicesSection() {
   let services: Partial<Service>[] = STATIC_SERVICES;
   try {
-    const trpc = await createServerCaller();
+    const trpc = await createPublicCaller();
     const dbServices = await trpc.services.list();
     if (dbServices.length > 0) services = dbServices;
   } catch {

@@ -1,13 +1,6 @@
 import Link from "next/link";
 import { ConexusLogo } from "@/components/redesign/ConexusLogo";
-
-const SERVICES_LINKS = [
-  { label: "Controle de Estoque", href: "/#servicos" },
-  { label: "Sistemas Internos", href: "/#servicos" },
-  { label: "Dashboards", href: "/#servicos" },
-  { label: "Automação de Tarefas", href: "/#servicos" },
-  { label: "Integrações", href: "/#servicos" },
-];
+import { getServicesNav } from "@/lib/nav";
 
 const COMPANY_LINKS = [
   { label: "Como funciona", href: "/#processo" },
@@ -16,8 +9,10 @@ const COMPANY_LINKS = [
   { label: "Fale conosco", href: "/#contato" },
 ];
 
-export function Footer() {
+export async function Footer() {
   const year = new Date().getFullYear();
+  // Serviços ativos vindos do banco: desativou no admin, some daqui tambem.
+  const services = await getServicesNav();
 
   return (
     <footer
@@ -59,14 +54,14 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Services */}
+          {/* Services (dinamico: reflete os servicos ativos no admin) */}
           <div>
             <h3 className="font-semibold text-xs uppercase tracking-wider mb-4 cnx-muted">Serviços</h3>
             <ul className="flex flex-col gap-2">
-              {SERVICES_LINKS.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="text-sm cnx-body hover:opacity-80 transition-opacity">
-                    {link.label}
+              {services.map((service) => (
+                <li key={service.slug}>
+                  <Link href={`/#${service.slug}`} className="text-sm cnx-footlink">
+                    {service.title}
                   </Link>
                 </li>
               ))}
@@ -79,7 +74,7 @@ export function Footer() {
             <ul className="flex flex-col gap-2">
               {COMPANY_LINKS.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm cnx-body hover:opacity-80 transition-opacity">
+                  <Link href={link.href} className="text-sm cnx-footlink">
                     {link.label}
                   </Link>
                 </li>

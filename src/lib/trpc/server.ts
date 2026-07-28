@@ -35,3 +35,20 @@ export const createServerCaller = cache(async () => {
     req: new Request("http://internal"),
   });
 });
+
+/**
+ * Anonymous tRPC caller for PUBLIC pages and sections.
+ *
+ * Unlike `createServerCaller`, this never touches `cookies()`, so it is safe
+ * inside statically generated pages (SSG/ISR). Reading cookies during static
+ * rendering throws and turns the whole page into a 500 - which is exactly what
+ * happened to /blog/[slug] and /portfolio/[slug] when content was created
+ * after the build. Public procedures never need the user anyway.
+ */
+export const createPublicCaller = cache(async () => {
+  return createCaller({
+    db,
+    user: null,
+    req: new Request("http://internal"),
+  });
+});

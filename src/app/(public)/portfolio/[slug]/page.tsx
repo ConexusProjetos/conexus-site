@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { createServerCaller } from "@/lib/trpc/server";
+import { createPublicCaller } from "@/lib/trpc/server";
 import { formatDate, getAbsoluteUrl } from "@/lib/utils";
 import { ArrowLeft, ExternalLink, Tag, Calendar } from "lucide-react";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// Pagina gerada estaticamente e revalidada a cada 5 min: cases novos ou
+// editados no admin aparecem sozinhos, sem precisar de novo deploy.
+export const revalidate = 300;
+
 // ─── Static params for SSG ──────────────────────────────────────────────────
 export async function generateStaticParams() {
   try {
-    const trpc = await createServerCaller();
+    const trpc = await createPublicCaller();
     const slugs = await trpc.projects.allSlugs();
     return slugs.map((slug) => ({ slug }));
   } catch {
@@ -22,7 +26,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const trpc = await createServerCaller();
+    const trpc = await createPublicCaller();
     const project = await trpc.projects.bySlug({ slug });
     const title = project.metaTitle ?? `${project.title} - Portfólio Conexus`;
     const description =
@@ -51,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
 
-  const trpc = await createServerCaller();
+  const trpc = await createPublicCaller();
   const project = await trpc.projects.bySlug({ slug }).catch(() => null);
 
   if (!project) notFound();

@@ -3,19 +3,26 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ConexusLogo } from "@/components/redesign/ConexusLogo";
+import { ServiceIcon } from "@/lib/service-icons";
+
+// Espelho do NavService de lib/nav (tipo local: este arquivo e client-side).
+type HeaderService = {
+  title: string;
+  slug: string;
+  icon: string | null;
+};
 
 const NAV_LINKS = [
-  { label: "Serviços", href: "/#servicos" },
   { label: "Como funciona", href: "/#processo" },
   { label: "Portfólio", href: "/portfolio" },
   { label: "Blog", href: "/blog" },
   { label: "Contato", href: "/#contato" },
 ];
 
-export function Header() {
+export function Header({ services = [] }: { services?: HeaderService[] }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -34,6 +41,8 @@ export function Header() {
     document.body.style.overflow = isMobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isMobileOpen]);
+
+  const hasDropdown = services.length > 0;
 
   return (
     <>
@@ -55,12 +64,68 @@ export function Header() {
 
             {/* Desktop nav */}
             <nav className="hidden md:flex items-center gap-1" role="navigation">
+              {/* Serviços: com dropdown no hover listando os servicos ativos */}
+              <div className={cn("relative", hasDropdown && "group/nav")}>
+                <Link
+                  href="/#servicos"
+                  className="cnx-navlink px-4 py-2 rounded-lg text-sm font-medium inline-flex items-center gap-1"
+                  aria-haspopup={hasDropdown ? "menu" : undefined}
+                >
+                  Serviços
+                  {hasDropdown && (
+                    <ChevronDown
+                      size={14}
+                      className="transition-transform duration-200 group-hover/nav:rotate-180"
+                      aria-hidden="true"
+                    />
+                  )}
+                </Link>
+
+                {hasDropdown && (
+                  <div className="cnx-dropdown absolute left-0 top-full pt-2 w-72 z-50">
+                    <div
+                      className="rounded-2xl border bg-white p-2"
+                      style={{ borderColor: "var(--cnx-line)", boxShadow: "var(--cnx-shadow-lg)" }}
+                      role="menu"
+                      aria-label="Serviços"
+                    >
+                      {services.map((service) => (
+                        <Link
+                          key={service.slug}
+                          href={`/#${service.slug}`}
+                          className="cnx-dropdown-item"
+                          role="menuitem"
+                        >
+                          <span
+                            className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                            style={{ background: "rgba(47, 68, 159, 0.07)", color: "var(--cnx-blue)" }}
+                            aria-hidden="true"
+                          >
+                            <ServiceIcon icon={service.icon} size={15} />
+                          </span>
+                          {service.title}
+                        </Link>
+                      ))}
+                      <div className="border-t mt-2 pt-2" style={{ borderColor: "var(--cnx-line)" }}>
+                        <Link
+                          href="/#servicos"
+                          className="cnx-dropdown-item text-xs font-semibold"
+                          role="menuitem"
+                        >
+                          Ver todos os serviços
+                          <ArrowRight size={13} className="ml-auto" aria-hidden="true" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                  style={{ color: "var(--cnx-ink-2)" }}
+                  className="cnx-navlink px-4 py-2 rounded-lg text-sm font-medium"
                 >
                   {link.label}
                 </Link>
@@ -98,8 +163,16 @@ export function Header() {
         aria-modal="true"
         aria-label="Menu de navegação"
       >
-        <div className="flex flex-col h-full pt-20 px-6 pb-8">
+        <div className="flex flex-col h-full pt-20 px-6 pb-8 overflow-y-auto">
           <nav className="flex flex-col gap-1 flex-1" role="navigation">
+            <Link
+              href="/#servicos"
+              onClick={() => setIsMobileOpen(false)}
+              className="flex items-center py-4 text-xl font-medium border-b transition-colors"
+              style={{ color: "var(--cnx-ink)", borderColor: "var(--cnx-line)" }}
+            >
+              Serviços
+            </Link>
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getServicesNav } from "@/lib/nav";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -19,12 +20,17 @@ export const metadata: Metadata = {
   },
 };
 
+// Sempre renderizada por request: os servicos e depoimentos vem do banco e
+// devem refletir o admin na hora (inclusive em builds Docker sem banco).
+export const dynamic = "force-dynamic";
+
 /**
  * Home page - Landing page da Conexus.
  * Mixes Server Components (HeroSection, ServicesSection, TestimonialsSection)
  * with Client Components (ContactSection) for optimal performance + interactivity.
  */
-export default function HomePage() {
+export default async function HomePage() {
+  const navServices = await getServicesNav();
   return (
     <div className="cnx-theme">
       {/* JSON-LD: LocalBusiness schema for SEO */}
@@ -76,7 +82,7 @@ export default function HomePage() {
         }}
       />
 
-      <Header />
+      <Header services={navServices} />
 
       <main id="main-content">
         <HeroSection />

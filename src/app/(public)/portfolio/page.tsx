@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { createServerCaller } from "@/lib/trpc/server";
+import { createPublicCaller } from "@/lib/trpc/server";
 import { ProjectCard } from "@/components/sections/ProjectCard";
 import { CategoryFilter } from "@/components/ui/CategoryFilter";
 import { getAbsoluteUrl } from "@/lib/utils";
@@ -26,7 +26,7 @@ type Props = {
 export default async function PortfolioPage({ searchParams }: Props) {
   const { categoria } = await searchParams;
 
-  const trpc = await createServerCaller();
+  const trpc = await createPublicCaller();
   const [projects, categories] = await Promise.all([
     trpc.projects.list({ categorySlug: categoria, limit: 50 }).catch(() => []),
     trpc.projects.categories().catch(() => []),

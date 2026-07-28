@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Revalida a cada 5 min para o rodapé (serviços dinâmicos) não congelar.
+export const revalidate = 300;
+
 export default function ContatoPage() {
   return (
     <>

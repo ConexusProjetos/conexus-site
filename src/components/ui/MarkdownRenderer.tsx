@@ -1,6 +1,8 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import { cn } from "@/lib/utils";
+import type { ReactElement, ReactNode } from "react";
 
 type Props = {
   content: string;
@@ -18,7 +20,7 @@ export function MarkdownRenderer({ content, className }: Props) {
   return (
     <div className={cn("conexus-prose", className)}>
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm, remarkBreaks]}
         components={{
           h1: ({ children }) => (
             <h1 className="font-outfit text-3xl font-bold mt-10 mb-4 first:mt-0 tracking-tight" style={ink}>{children}</h1>
@@ -62,15 +64,16 @@ export function MarkdownRenderer({ content, className }: Props) {
             </blockquote>
           ),
 
-          code: ({ inline, className: cls, children }: any) => {
-            if (inline) {
-              return (
-                <code className="px-1.5 py-0.5 rounded text-sm font-mono border" style={{ background: "rgba(47, 68, 159,0.07)", color: "var(--cnx-blue)", borderColor: "rgba(47, 68, 159,0.15)" }}>
-                  {children}
-                </code>
-              );
-            }
-            const language = cls?.replace("language-", "") ?? "";
+          // react-markdown v10: nao existe mais a prop `inline`. Blocos de
+          // codigo chegam como <pre><code/></pre>; codigo inline chega como
+          // <code/> solto. Tratamos o bloco no `pre` e o inline no `code`.
+          pre: ({ children }) => {
+            const child = (Array.isArray(children) ? children[0] : children) as
+              | ReactElement<{ className?: string; children?: ReactNode }>
+              | undefined;
+            const cls = child?.props?.className ?? "";
+            const language = /language-(\w+)/.exec(cls)?.[1] ?? "";
+            const raw = child?.props?.children ?? children;
             return (
               <div className="my-6 rounded-xl overflow-hidden border" style={line}>
                 {language && (
@@ -79,11 +82,16 @@ export function MarkdownRenderer({ content, className }: Props) {
                   </div>
                 )}
                 <pre className="p-5 overflow-x-auto" style={{ background: "#0b1020" }}>
-                  <code className="text-sm font-mono leading-relaxed" style={{ color: "#cdd5e3" }}>{children}</code>
+                  <code className="text-sm font-mono leading-relaxed" style={{ color: "#cdd5e3" }}>{raw}</code>
                 </pre>
               </div>
             );
           },
+          code: ({ children }) => (
+            <code className="px-1.5 py-0.5 rounded text-sm font-mono border" style={{ background: "rgba(47, 68, 159,0.07)", color: "var(--cnx-blue)", borderColor: "rgba(47, 68, 159,0.15)" }}>
+              {children}
+            </code>
+          ),
 
           img: ({ src, alt }) => (
             <figure className="my-8">

@@ -402,6 +402,59 @@
   .cnx-input:focus { border-color: var(--cnx-mid); box-shadow: 0 0 0 3px rgba(47, 68, 159, 0.12); }
 }
 
+/* - Navegação: hover com cor da marca (header e rodapé) - */
+@layer components {
+  .cnx-navlink {
+    color: var(--cnx-ink-2);
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+  .cnx-navlink:hover,
+  .cnx-navlink:focus-visible {
+    color: var(--cnx-blue);
+    background-color: rgba(47, 68, 159, 0.06);
+  }
+
+  .cnx-footlink {
+    color: var(--cnx-ink-2);
+    transition: color 0.15s ease, transform 0.15s ease;
+    display: inline-block;
+  }
+  .cnx-footlink:hover,
+  .cnx-footlink:focus-visible {
+    color: var(--cnx-blue);
+    transform: translateX(2px);
+  }
+
+  /* Dropdown do menu (desktop): abre no hover/foco, com leve entrada */
+  .cnx-dropdown {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  }
+  .group\/nav:hover .cnx-dropdown,
+  .group\/nav:focus-within .cnx-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .cnx-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    color: var(--cnx-ink-2);
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+  .cnx-dropdown-item:hover,
+  .cnx-dropdown-item:focus-visible {
+    color: var(--cnx-blue);
+    background-color: rgba(47, 68, 159, 0.06);
+  }
+}
+
 /* - Órbita (motivo de marca) - */
 @layer utilities {
   .cnx-orbit { transform-origin: 300px 300px; animation: cnx-spin 48s linear infinite; }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { createServerCaller } from "@/lib/trpc/server";
+import { createPublicCaller } from "@/lib/trpc/server";
 import { BlogCard } from "@/components/sections/BlogCard";
 import { CategoryFilter } from "@/components/ui/CategoryFilter";
 import { Pagination } from "@/components/ui/Pagination";
@@ -35,7 +35,7 @@ export default async function BlogPage({ searchParams }: Props) {
   const { pagina, categoria, busca } = await searchParams;
   const page = Math.max(1, parseInt(pagina ?? "1"));
 
-  const trpc = await createServerCaller();
+  const trpc = await createPublicCaller();
   const [result, categories] = await Promise.all([
     trpc.blog
       .list({ page, limit: 9, categorySlug: categoria, search: busca })

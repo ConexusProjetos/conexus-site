@@ -1,4 +1,4 @@
-import { createServerCaller } from "@/lib/trpc/server";
+import { createPublicCaller } from "@/lib/trpc/server";
 import type { Testimonial } from "@/server/db/schema";
 import { Star, Target } from "lucide-react";
 
@@ -77,7 +77,7 @@ function TestimonialCard({ t }: { t: Partial<Testimonial> }) {
 export async function TestimonialsSection() {
   let testimonials: Partial<Testimonial>[] = STATIC_TESTIMONIALS;
   try {
-    const trpc = await createServerCaller();
+    const trpc = await createPublicCaller();
     const db = await trpc.testimonials.list();
     if (db.length > 0) testimonials = db;
   } catch {

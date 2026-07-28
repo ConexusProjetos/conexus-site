@@ -41,3 +41,6 @@ drizzle/meta/
 
 # Material privado de apresentacao (fica so na maquina local)
 docs/guia-do-apresentador.md
+
+# Configuracao local de ferramentas de desenvolvimento
+.claude/
